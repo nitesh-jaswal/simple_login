@@ -3,11 +3,9 @@ import sqlite3
 import bcrypt
 import pydantic
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 
-
-DATABASE_FILE = "database.db" 
+DATABASE_FILE = "database.db"
 
 app = FastAPI()
 
@@ -16,15 +14,18 @@ app = FastAPI()
 async def read_index():
     return FileResponse("static/index.html")
 
+
 # Function to get database connection
 def get_db():
     conn = sqlite3.connect(DATABASE_FILE)
     conn.row_factory = sqlite3.Row  # This enables column access by name
     return conn
 
+
 class UserLogin(pydantic.BaseModel):
     username: str
     password: pydantic.types.SecretStr
+
 
 # Endpoint to create a new account
 @app.post("/create_account/")
