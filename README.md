@@ -1,5 +1,5 @@
 # Run
 
 ```sh
-./run.sh
+./run.sh start
 ``````
