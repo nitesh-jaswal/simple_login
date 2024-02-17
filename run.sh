@@ -7,6 +7,7 @@ Help() {
     echo "Options:"
     echo "  start  - Start the application"
     echo "  format - Format the code"
+    echo "  initdb - Initialize the database"
 }
 
 #!/bin/bash
