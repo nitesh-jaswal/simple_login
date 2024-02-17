@@ -11,8 +11,14 @@ Help() {
 
 #!/bin/bash
 
+RED="\033[0;31m"
+YELLOW="\033[1;33m"
+NC="\033[0m"
 ScriptLog() {
-    echo -e "\033[1;33m$1\033[0m"
+    echo -e "${YELLOW}$1${NC}"
+}
+ScriptWarn() {
+    echo -e "${RED}$1${NC}"
 }
 
 case "$1" in
@@ -25,6 +31,18 @@ case "$1" in
         poetry run black --line-length 120 .
         ScriptLog "Sorting imports..."
         poetry run isort .
+        ;;
+    initdb)
+        ScriptLog "Removing existing database..."
+        ScriptWarn "WARNING: This will delete all data in the database[y/N]"
+        read -r response
+        if [ "$response" != "y" ]; then
+            ScriptLog "Aborting..."
+            exit 0
+        fi
+        rm -f database.db
+        ScriptLog "Initializing database..."
+        poetry run python scripts/00_init_users.py
         ;;
     *)
         Help
