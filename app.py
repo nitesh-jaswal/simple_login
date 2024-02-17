@@ -4,11 +4,17 @@ import bcrypt
 import pydantic
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse
+
+
+DATABASE_FILE = "database.db" 
 
 app = FastAPI()
 
-DATABASE_FILE = "database.db"  # Path to your SQLite database file
 
+@app.get("/")
+async def read_index():
+    return FileResponse("static/index.html")
 
 # Function to get database connection
 def get_db():
